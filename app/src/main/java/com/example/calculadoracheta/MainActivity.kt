@@ -76,8 +76,8 @@ class MainActivity : AppCompatActivity() {
 
     fun operator(view: View) {
         bDot.isClickable = true
-        var btPressed = view as Button
-        when (btPressed.id) {
+        var bPressed = view as Button
+        when (bPressed.id) {
             bAdd.id -> {
                 operator = "+"
             }
@@ -116,11 +116,7 @@ class MainActivity : AppCompatActivity() {
                 result = previousNum.toDouble() / newNum.toDouble()
                 if (result.isInfinite() || result.isNaN()) {
                     result = 0.0
-                    Toast.makeText(
-                        applicationContext,
-                        "No puedes dividir entre 0",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(applicationContext, "No puedes dividir entre 0", Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -130,103 +126,107 @@ class MainActivity : AppCompatActivity() {
         operation = true
     }
 
-    fun deleteLast(view: View) {
+    /*fun deleteLast(view: View) {
         val chain = numText.text.toString()
         if (chain.isNotEmpty()) {
             numText.text = chain.substring(0, chain.length - 1)
         }
     }
+    */
 
     fun resetAll(view: View) {
-
         previousNum = 0.toString()
-        numText.text = "0"
+        previousNumLand = 0.toString()
+        operator = ""
+        operatorLand = ""
         equalText.text = ""
+        numText.text = ""
         operation = true
+        bDot.isClickable = true
         bEqual.isClickable = true
     }
 
-    var isNewOpLand = true
+    var operationLand = true
     var previousNumLand = ""
     var operatorLand = "+"
 
-    //funciones on click para el layout landscape
+    //Funciones on click para el layout landscape
 
     fun landNum(view: View) {
-        if (isNewOpLand) {
+        if (operationLand) {
             numText.text = ""
         }
-        isNewOpLand = false
-        var btClickValue = numText.text.toString()
+        operationLand = false
+        var value = numText.text.toString()
         var btPressed = view as Button
         when (btPressed.id) {
             b0.id -> {
-                btClickValue += "0"
+                value += "0"
             }
             b1.id -> {
-                btClickValue += "1"
+                value += "1"
             }
             b2.id -> {
-                btClickValue += "2"
+                value += "2"
             }
             b3.id -> {
-                btClickValue += "3"
+                value += "3"
             }
             b4.id -> {
-                btClickValue += "4"
+                value += "4"
             }
             b5.id -> {
-                btClickValue += "5"
+                value += "5"
             }
             b6.id -> {
-                btClickValue += "6"
+                value += "6"
             }
             b7.id -> {
-                btClickValue += "7"
+                value += "7"
             }
             b8.id -> {
-                btClickValue += "8"
+                value += "8"
             }
             b9.id -> {
-                btClickValue += "9"
+                value += "9"
             }
             bDot.id -> {
-                if (btClickValue.isNotEmpty()) {
-                    btClickValue += "."
+                if (value.isNotEmpty()) {
+                    value += "."
                 } else {
-                    btClickValue += "0."
+                    value += "0."
                 }
                 bDot.isClickable = false
             }
         }
-        numText.setText(btClickValue)
+        numText.setText(value)
     }
 
     fun numLetter(view: View) {
-        if (isNewOpLand) {
+        if (operationLand) {
             numText.text = ""
         }
-        isNewOpLand = false
+        operationLand = false
         var btClickValue = numText.text.toString()
         var btPressed = view as Button
         when (btPressed.id) {
             bA.id -> {
-                btClickValue += "a"
+                btClickValue += "A"
             }
             bB.id -> {
-                btClickValue += "b"
+                btClickValue += "B"
             }
             bC.id -> {
-                btClickValue += "c"
+                btClickValue += "C"
             }
             bD.id -> {
-                btClickValue += "d"
+                btClickValue += "D"
             }
             bE.id -> {
-                btClickValue += "e"
+                btClickValue += "E"
             }
             bF.id -> {
-                btClickValue += "f"
+                btClickValue += "F"
             }
         }
         numText.setText(btClickValue)
@@ -234,12 +234,12 @@ class MainActivity : AppCompatActivity() {
 
     fun landOperator(view: View) {
         bDot.isClickable = true
-        var btPressed = view as Button
+        var bPressed = view as Button
 
         if (!bBin.isEnabled) {
-            var numero = numText.text.toString().toLong()
-            var a = binaryToDecimal(numero)
-            previousNumLand = a.toString()
+            var num = numText.text.toString().toLong()
+            var x = binaryToDecimal(num)
+            previousNumLand = x.toString()
             numText.setText("0")
         }
         if (!bHex.isEnabled) {
@@ -251,7 +251,7 @@ class MainActivity : AppCompatActivity() {
             previousNumLand = numText.text.toString()
             numText.setText("0")
         }
-        when (btPressed.id) {
+        when (bPressed.id) {
             bAdd.id -> {
                 operatorLand = "+"
             }
@@ -265,18 +265,18 @@ class MainActivity : AppCompatActivity() {
                 operatorLand = "/"
             }
         }
-        isNewOpLand = true
+        operationLand = true
         bEqual.isClickable = true
     }
 
     fun landEqual(view: View) {
-        var currentNum = numText.text
+        var num = numText.text.toString()
         var result = 0
         try {
             var newNum = numText.text.toString()
             if (!bBin.isEnabled) {
-                var numero = numText.text.toString().toLong()
-                var x = binaryToDecimal(numero)
+                var number = numText.text.toString().toLong()
+                var x = binaryToDecimal(number)
                 newNum = x.toString()
             }
             if (!bHex.isEnabled) {
@@ -289,63 +289,64 @@ class MainActivity : AppCompatActivity() {
 
             when (operatorLand) {
                 "+" -> {
-                result = previousNumLand.toInt() + newNum.toInt()
-            }
+                    result = previousNumLand.toInt() + newNum.toInt()
+                }
                 "-" -> {
                     result = previousNumLand.toInt() - newNum.toInt()
                 }
                 "x" -> {
                     result = previousNumLand.toInt() * newNum.toInt()
-
                 }
                 "/" -> {
                     result = previousNumLand.toInt() / newNum.toInt()
-
                 }
-
             }
-
             if (!bBin.isEnabled) {
                 var bin = result.toString()
-
-                var resBin = Integer.toBinaryString(bin.toInt())
-                numText.setText(resBin.toString())
+                equalText.setText(newNum + operatorLand + num)
+                var equalBin = Integer.toBinaryString(bin.toInt())
+                numText.setText(equalBin.toString())
+                equalText.setText(previousNumLand + operatorLand + num)
             }
             if (!bHex.isEnabled) {
-                var e = result.toString()
-                var r = Integer.toHexString(e.toInt())
+                var a = result.toString()
+                var r = Integer.toHexString(a.toInt())
                 numText.setText(r)
+                equalText.setText(previousNumLand + operatorLand + num)
             }
             if (!bDec.isEnabled) {
-                numText.setText(result.toString())
+                equalText.setText(result.toString())
+                numText.setText(previousNumLand + operatorLand +num)
             }
-
-            isNewOpLand = true
-        } catch (ae: ArithmeticException) {
-            Toast.makeText(applicationContext, "No puedes dividir entre 0", Toast.LENGTH_SHORT)
-                .show()
-            result = 0
-
+            operationLand = true
+            operation = true
         } catch (ex: NumberFormatException) {
-            currentNum = numText.text
+            num = numText.text.toString()
+        }catch (ae: ArithmeticException) {
+            Toast.makeText(applicationContext, "No puedes dividir entre 0", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
         }
-
     }
 
     fun resetAllLand(view: View) {
         previousNum = 0.toString()
-        numText.text = "0"
+        previousNumLand = 0.toString()
+        operator = ""
+        operatorLand = ""
+        equalText.text = ""
+        numText.text = ""
         operation = true
+        bDot.isClickable = true
+        bEqual.isClickable = true
     }
-
+    /*
     fun deleteLastLand(view: View) {
         val chain = numText.text.toString()
         if (chain.isNotEmpty()) {
             numText.text = chain.substring(0, chain.length - 1)
         }
     }
-
+    */
     fun binaryToDecimal(num: Long): Int {
         var num = num
         var decimalNumber = 0
@@ -373,15 +374,15 @@ class MainActivity : AppCompatActivity() {
         return decimal
     }
 
-    fun charHexadecimalToDecimal(caracter: Char): Int {
-        return when (caracter) {
-            'a' -> 10
-            'b' -> 11
-            'c' -> 12
-            'd' -> 13
-            'e' -> 14
-            'f' -> 15
-            else -> caracter.toString().toInt()
+    fun charHexadecimalToDecimal(character: Char): Int {
+        return when (character) {
+            'A' -> 10
+            'B' -> 11
+            'C' -> 12
+            'D' -> 13
+            'E' -> 14
+            'F' -> 15
+            else -> character.toString().toInt()
         }
     }
 
@@ -410,14 +411,11 @@ class MainActivity : AppCompatActivity() {
                 numText.text = "0"
             } else {
                 try {
-                    var toBi = numText.text.toString().toLong()
-                    numText.setText(Integer.toBinaryString(toBi.toInt()))
-                } catch (ae: NumberFormatException) {
-                    Toast.makeText(applicationContext, "Número demasiado largo", Toast.LENGTH_LONG)
-                        .show()
+                    var toBin = numText.text.toString().toLong()
+                    numText.setText(Integer.toBinaryString(toBin.toInt()))
+                } catch (ae: NumberFormatException) { Toast.makeText(applicationContext, "Error", Toast.LENGTH_LONG).show()
                     numText.text = "0"
                 }
-
             }
         }
 
@@ -425,12 +423,9 @@ class MainActivity : AppCompatActivity() {
             try {
                 var toDec = hexadecimalToDecimal(numText.text.toString())
                 numText.setText(Integer.toBinaryString(toDec.toInt()))
-            } catch (ae: NumberFormatException) {
-                Toast.makeText(applicationContext, "Número demasiado largo", Toast.LENGTH_LONG)
-                    .show()
+            } catch (ae: NumberFormatException) { Toast.makeText(applicationContext, "Error", Toast.LENGTH_LONG).show()
                 numText.text = "0"
             }
-
         }
 
         bBin.setEnabled(false)
@@ -459,12 +454,10 @@ class MainActivity : AppCompatActivity() {
 
         if (!bBin.isEnabled) {
             try {
-                var toBi = numText.text.toString().toLong()
-                var a = binaryToDecimal(toBi)
+                var toBin = numText.text.toString().toLong()
+                var a = binaryToDecimal(toBin)
                 numText.setText(a.toString())
-            } catch (ae: NumberFormatException) {
-                Toast.makeText(applicationContext, "Numero demasiado largo", Toast.LENGTH_LONG)
-                    .show()
+            } catch (ae: NumberFormatException) { Toast.makeText(applicationContext, "Numero demasiado largo", Toast.LENGTH_LONG).show()
                 numText.text = "0"
             }
         }
@@ -472,9 +465,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 var toDec = hexadecimalToDecimal(numText.text.toString())
                 numText.setText(toDec.toString())
-            } catch (ae: NumberFormatException) {
-                Toast.makeText(applicationContext, "Numero demasiado largo", Toast.LENGTH_LONG)
-                    .show()
+            } catch (ae: NumberFormatException) { Toast.makeText(applicationContext, "Numero demasiado largo", Toast.LENGTH_LONG).show()
                 numText.text = "0"
             }
         }
@@ -505,12 +496,10 @@ class MainActivity : AppCompatActivity() {
         if (!bBin.isEnabled) {
 
             try {
-                var toBi = numText.text.toString().toLong()
-                var toDec = binaryToDecimal(toBi)
+                var toBin = numText.text.toString().toLong()
+                var toDec = binaryToDecimal(toBin)
                 numText.setText(Integer.toHexString(toDec))
-            } catch (ae: NumberFormatException) {
-                Toast.makeText(applicationContext, "Número demasiado largo", Toast.LENGTH_LONG)
-                    .show()
+            } catch (ae: NumberFormatException) { Toast.makeText(applicationContext, "Número demasiado largo", Toast.LENGTH_LONG).show()
                 numText.text = "0"
             }
         }
@@ -518,9 +507,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 var toDec = hexadecimalToDecimal(numText.text.toString())
                 numText.setText(Integer.toHexString(toDec.toInt()))
-            } catch (ae: NumberFormatException) {
-                Toast.makeText(applicationContext, "Número demasiado largo", Toast.LENGTH_LONG)
-                    .show()
+            } catch (ae: NumberFormatException) { Toast.makeText(applicationContext, "Número demasiado largo", Toast.LENGTH_LONG).show()
                 numText.text = "0"
             }
         }

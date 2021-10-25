@@ -1,4 +1,3 @@
 <resources>
     <string name="app_name">Calculadora profesional</string>
-    <string name="div">No puedes dividir entre 0</string>
 </resources>
